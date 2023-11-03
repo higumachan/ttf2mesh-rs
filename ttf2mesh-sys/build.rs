@@ -31,7 +31,7 @@ fn main() {
     cc::Build::new()
         .flag("-Wall")
         .flag("-pedantic")
-        .flag("-std=c99")
+        .flag("-std=c11")
         .flag("-D_POSIX_C_SOURCE=199309L")
         .file("ttf2mesh/ttf2mesh.c")
         .compile("ttf2mesh");

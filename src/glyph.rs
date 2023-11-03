@@ -42,6 +42,7 @@ impl<'a> Glyph<'a> {
             )
         };
 
+        eprintln!("error: {}", error);
         if error != ttf2mesh_sys::TTF_DONE as i32 {
             return Err(Error::Glyph2MeshError);
         }
@@ -70,6 +71,7 @@ impl<'a> Glyph<'a> {
             )
         };
 
+        eprintln!("error: {}", error);
         if error != ttf2mesh_sys::TTF_DONE as i32 {
             return Err(Error::Glyph2MeshError);
         }
