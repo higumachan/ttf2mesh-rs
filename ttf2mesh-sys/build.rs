@@ -17,9 +17,12 @@ fn main() {
         panic!("ttf2mesh.h not found - have you initialized the submodule? (`git submodule update --init`)");
     }
 
-    let bindings = bindgen::Builder::default()
+    let builder = bindgen::Builder::default()
         .header("wrapper.h")
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .clang_arg("-fvisibility=default")
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks));
+    println!("cargo:warning={:?}", &builder);
+    let bindings = builder
         .generate()
         .expect("Unable to generate bindings");
 
@@ -29,6 +32,7 @@ fn main() {
         .expect("Couldn't write bindings!");
 
     cc::Build::new()
+        .compiler("llvm-gcc")
         .flag("-Wall")
         .flag("-pedantic")
         .flag("-std=c11")

@@ -47,9 +47,15 @@ pub use ttf::TTFFile;
 
 // TODO: support TTF_FEATURE_IGN_ERR as bitflag
 
-#[cfg(not(windows))]
+#[cfg(all(not(windows), not(target_arch = "wasm32")))]
 fn path_to_cstring<P: AsRef<Path>>(path: P) -> CString {
     use std::os::unix::ffi::OsStrExt;
+    CString::new(path.as_ref().as_os_str().as_bytes()).unwrap()
+}
+
+#[cfg(target_arch = "wasm32")]
+fn path_to_cstring<P: AsRef<Path>>(path: P) -> CString {
+    use std::os::wasi::ffi::OsStrExt;
     CString::new(path.as_ref().as_os_str().as_bytes()).unwrap()
 }
 
